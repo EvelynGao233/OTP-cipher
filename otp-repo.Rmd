@@ -6,9 +6,13 @@ output: html_document
 ---
 
 Good thing:
-The practice on the class is really helpful. Since this time I solved a lot questions during the class, the test code of cipher is not so hard to write.The video in the LinkedIn is also helpful. I have installed the git during the class so it doesn't cost me a lot of time.
+The practice on the class is really helpful. Since this time I solved a lot questions during the class, the test code of cipher is not so hard to write.
+The video in the LinkedIn is also helpful. 
+I have installed the git during the class so it doesn't cost me a lot of time.
 Bad thing:
-I have initialize the git repository but I still feel a little confused about the git, so I might need to watch the video more times. Also, I am still figure out how to push OPT repo with unit tests to github. Besides, due the success at the beginning, I didn't finish my homework until Saturday, so I have missed a lot of TA time to solve my problems.
+I have initialize the git repository but I still feel a little confused about the git, so I might need to watch the video more times. 
+Also, I am still figure out how to push OPT repo with unit tests to github. (update: I succeed!) 
+Besides, due the success at the beginning, I didn't finish my homework until Saturday, so I have missed a lot of TA time to solve my problems.
 Better thing:
 Try to write homework earlier and give myself sometime to go to TA hours.
 Utilize the video shared in the class. 
