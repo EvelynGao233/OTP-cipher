@@ -1,3 +1,0 @@
-This is a test for encipher and decipher. 
-Gook Luck!
-If you see this, congragulations!
