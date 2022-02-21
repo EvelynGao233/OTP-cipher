@@ -3,12 +3,14 @@
 Instruction:
 
 Main cipher program:
+
 In this cipher.py, I use the method taught in the class to run the program from the command line.
 Basically, I use the mode same as the given example.
 
 "-m": shows mamual
 
 "-p": type "-p" and the size of one-time-pad you want, and it will generate pad and save it into One_time_pad.txt
+
 eg: -p 1000 (generate One_time_pad.txt which contains pad of size 1000)
 
 "-e": encipher command. Type filename you want to encipher. Use it combined with command "-w", and encipher with given pad file. Save it to encrypted-message.txt.
@@ -16,6 +18,7 @@ eg: -p 1000 (generate One_time_pad.txt which contains pad of size 1000)
 "-d": decipher command. Type filename you want to decipher. Use it combined with command "-w", and decipher with given pad file. Save it to decrypted-message.txt.
 
 "-w": Type filename as pad. Use it with command "-e" or "-d"
+
 eg: -e unencrypted.txt -w One_time_pad.txt
     -d encrypted.txt -w One_time_pad.txt
     
