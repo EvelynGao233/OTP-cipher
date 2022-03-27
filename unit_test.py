@@ -1,29 +1,6 @@
 
 from cipher import *
 
-generated_pad = generatePadFile("pad.txt",1000)
-
-message = "This is a test for encipher and decipher. Gook Luck! If you see this, Congratulations!"
-
-with open("encrypted-message.txt","w") as file:
-  file.write(encipher(message,"pad.txt"))
-
-decipher_test = open("encrypted-message.txt").read()
-
-with open("decrypted-message.txt", "w") as file:
-  file.write(decipher(decipher_test,"pad.txt"))
-
-decrypted = open("decrypted-message.txt").read()
-
-with open("encrypted-test.txt", "w") as file:
-  file.write(encipher(decrypted,"pad.txt"))
-
-def test_decipher():
-  assert decrypted == message
-
-def test_encipher():
-  encrypted = open("encrypted-test.txt").read()
-  assert encrypted == decipher_test
 
 def test_shiftLetter_by_3():
     assert shiftLetter("a", 3) == "d"
