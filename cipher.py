@@ -1,89 +1,73 @@
-import random
+from random import random
 import sys
 import getopt
 
-#generate one-time-pad in given size 
+#generate random letter
+def randomLetter():
+    return chr(65 + int(26 * random()))
+#generate pad in given size
 def generatePad(size):
-#open file and use random to generate random alphabet 
-  with open ("One_time_pad.txt","w") as file:
-    for i in range(size):      
-      file.write(chr(random.randrange(65,65+26)))
+  pad = []
+  for i in range(0, size):
+    pad.append(randomLetter())
+  return "".join(pad)
+#generate pad in given size and save it in file filename
+def generatePadFile(filename,size):
+  pad = generatePad(size)
+  file = open(filename,"w")
+  file.write(pad)
+  file.close()
 
-  with open ("One_time_pad.txt") as file:
-    pad = file.read()
-  
-  return pad
+#method to shift letter by number shift
+def shiftLetter(char,shift):
+    asc = ord(char)
 
-# decipher given file with generated one-time-pad
-def decipher(filename,pad):
-  # open file, one-time-pad, read and save string 
-  message = open(filename, "r").read()
-  pad = open(pad,"r").read()
-  decipher = ""
-  count = 0
-#if it is alphabet, use pad to decipher, otherwise add the original index element
-  for i in range (len(message)):
-    if message[i].isalpha()== True:
-      #ascii number of the alphabet
-      asc = ord(message[i])
-      #ascii number of the pad
-      asc_pad = ord(pad[count])-65
-      #decipher, substract the ascii number of the pad
-      de_asc = asc - asc_pad
-      #if original number is uppercase and after substracting pad ascii number it becomes lower than 65,
-      #add 26 to get correct decipher alphabet
-      if 64 < asc < 91:
-        if de_asc < 65:
-          de_asc = de_asc + 26
-      #if original number is lowercase and after substracting pad ascii number it becomes lower than 97,
-      #add 26 to get correct decipher alphabet
-      else: 
-        if de_asc < 97:
-          de_asc = de_asc + 26
-      # use chr to get the alphabet and add to decipher
-      decipher += chr(de_asc)
-      #move to next alphabet in one-time-pad
-      count += 1
+    if (asc >= 65) and (asc <= 90):
+        shifted = (asc - 65 + shift) % 26 + 65
+    elif (asc >= 97) and (asc <= 122):
+        shifted = (asc - 97 + shift) % 26 + 97
     else:
-      #not alphabet, directly add to decipher
-      decipher += message[i]
+        shifted = asc
+    
+    return chr(shifted)
 
-  return decipher
+#addPad method for encipher
+def addPad(message,pad):
+    newMessage = []
+    count = 0
+    for i in range(0, len(message)):
+        c = ord(message[i])
+        if ((c >= 65) and (c <= 90)) or (c >= 97) and (c <= 122):
+            newMessage.append(shiftLetter(message[i], ord(pad[i])))
+            count += 1
+        else:
+            newMessage.append(message[i])
+    return "".join(newMessage)
 
-#encipher
-def encipher(filename,pad):
-  message = open(filename, "r").read()
-  pad = open(pad,"r").read()
-  encipher = ""
-  count = 0
-#if it is alphabet, use pad to encipher, otherwise add the original index element
-  for i in range (len(message)):
-    if message[i].isalpha()== True:
-      #ascii number of the alphabet
-      asc = ord(message[i])
-      #ascii number of the pad
-      asc_pad = ord(pad[count])-65
-      #encipher, add the ascii number of the pad
-      en_asc = asc + asc_pad
-      #if original number is uppercase and after adding pad ascii number it becomes larger than 90,
-      #substract 26 to get correct encipher alphabet
-      if 64 < asc < 91:
-        if en_asc > 90:
-          en_asc = en_asc - 26
-      #if original number is lowercase and after adding pad ascii number it becomes larger than 122,
-      #substract 26 to get correct encipher alphabet
-      else: 
-        if en_asc > 122:
-          en_asc = en_asc - 26
-      # use chr to get the alphabet and add to encipher
-      encipher += chr(en_asc)
-      #move to next alphabet in one-time-pad
-      count += 1
-    else:
-      #not alphabet, directly add to encipher
-      encipher += message[i]
+#subPad method for decipher
+def subPad(message,pad):
+    newMessage = []
+    count = 0
+    for i in range(0, len(message)):
+        c = ord(message[i])
+        if ((c >= 65) and (c <= 90)) or (c >= 97) and (c <= 122):
+            newMessage.append(shiftLetter(message[i], -ord(pad[i])))
+            count += 1
+        else:
+            newMessage.append(message[i])
+    return "".join(newMessage)
 
-  return encipher
+# decipher given message with padfile
+def decipher(message,padfile):
+    f = open(padfile)
+    pad = f.read()
+    return subPad(message,pad)
+#encipher given message with padfile
+def encipher(message,padfile):
+    f = open(padfile)
+    pad = f.read()
+    return addPad(message,pad)
+
 
 def main(argv):
   #save input name from arg
@@ -101,12 +85,12 @@ def main(argv):
   for opt,arg in opts:
     #if command is "-m", print mamual
     if opt == '-m':
-      print('mamual: \n -p <size>: generate one-time-pad in given size and store it in "One_time_pad.txt" \n -e <inputfile> -w <padfile> : encrypt the <inputfile> by the <padfile> \n -d <inputfile> -w <padfile> : decipher <inputfile> by the <padfile>')
+      print('mamual: \n -p <size>: generate 10000 pad and store it in given file \n -e <inputfile> -w <padfile> : encrypt the <inputfile> by the <padfile> \n -d <inputfile> -w <padfile> : decipher <inputfile> by the <padfile>')
       sys.exit()
     #if command is "-p", user input int size, generate one time pad in given size and save it into "One-time-pad.txt"
     elif opt == "-p":
-      generatePad(int(arg))
-      print("One-time-pad in size", arg, " has been generated and saved in One_time_pad.txt")
+      generatePadFile(arg,10000)
+      print("One-time-pad in size 10000 has been generated and saved in file " + arg)
       sys.exit()
     #if command is "-e", user can input filename as unencryptedfile to enciper
     elif opt == "-e":
@@ -119,14 +103,18 @@ def main(argv):
       One_time_pad = arg
   #if user input file to encipher and one-time-pad, encipher the given file with One_time_pad
   if unencryptedfile and One_time_pad:
+    with open(unencryptedfile) as file:
+      message = file.read()
     with open("encrypted-message.txt","w") as file:
-      file.write(encipher(unencryptedfile,One_time_pad))
-    print("The ", unencryptedfile, " has been encrypted and save to encrypted-message.txt")
+      file.write(encipher(message,One_time_pad))
+    print("The message in", unencryptedfile, " has been encrypted and save to encrypted-message.txt")
   #if user input file to decipher and one-time-pad, decipher the given file with One_time_pad
   elif encryptedfile and One_time_pad:
+    with open(encryptedfile) as file:
+      message = file.read()
     with open("decrypted-message.txt","w") as file:
-      file.write(decipher(encryptedfile,One_time_pad))
-    print("The ", encryptedfile, " has been decrypted and save to decrypted-message.txt")
+      file.write(decipher(message,One_time_pad))
+    print("The message in", encryptedfile, " has been decrypted and save to decrypted-message.txt")
   #incorrect
   else:
     print("Incorrect amount of argument. Please check the manual.")
@@ -134,6 +122,13 @@ def main(argv):
 if __name__ == "__main__":
   main(sys.argv[1:])
     
+    
+
+    
+
+
+
+
     
 
     
