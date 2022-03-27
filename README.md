@@ -27,23 +27,16 @@ unit_test:
 
 test each individual function contained in the main cipher.py program.
 
+The last part of testing encipher and decipher:
 
+Create message to test
 
+Create "encrypted-message.txt" to save the message enciphered using "test.txt" generated before
 
+Create "decrypted-message.txt" to test decipher "encrypted-message.txt" by using "test.txt"
 
-In the end, typing pytest to see the result of each test suite.
-Generate "One_time_pad.txt" by generatePad() to use as pad and save it for later test.
+Create "encrypted-test.txt" to encipher the "decrypted-message.txt" by using "test.txt"
 
-Create a file called "encipherTest.txt", write message to it as test tool.
-
-Create "encrypted-message.txt" to test encipher "encipherTest.txt" by using "One_time_pad.txt".
-
-Use encrypted message in the "encrypted-message.txt" as "decipherTest.txt"
-
-Create "decrypted-message.txt" to test decipher "decipherTest.txt" by using "One_time_pad.txt"
-
-In this way, if the encipher and decipher method work, messages in the "encipherTest.txt" should be same as messages in the "decrypted-message.txt", and messages in the "decipherTest.txt" should be same as messages in the "encrypted-message.txt". Also, the pad in the "One_time_pad.txt" should be same as the result of generatePad().
-
-If all the methods works, all the assumption above will be true and tests will pass.
+In this case, if the message in "encrypted-test.txt" equals to message in "encrypted-message.txt", and the message in "decrypted-message.txt" equals to test message, test passed.
 
 (The message in the "encipherTest.txt" include uppercase, lowercase, punctuation to examine the correctness of decipher and encipher)
