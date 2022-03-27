@@ -9,9 +9,9 @@ Basically, I use the mode same as the given example.
 
 "-m": shows mamual
 
-"-p": type "-p" and the size of one-time-pad you want, and it will generate pad and save it into One_time_pad.txt
+"-p": type "-p" and name of the padfile, it will generate pad with size 10000 and save into the file you named
 
-eg: -p 1000 (generate One_time_pad.txt which contains pad of size 1000)
+eg: -p "pad.txt" (generate pad.txt which contains pad of size 10000)
 
 "-e": encipher command. Type filename you want to encipher. Use it combined with command "-w", and encipher with given pad file. Save it to encrypted-message.txt.
 
@@ -25,6 +25,13 @@ eg: -e unencrypted.txt -w One_time_pad.txt
     
 unit_test:
 
+test each individual function contained in the main cipher.py program.
+
+
+
+
+
+In the end, typing pytest to see the result of each test suite.
 Generate "One_time_pad.txt" by generatePad() to use as pad and save it for later test.
 
 Create a file called "encipherTest.txt", write message to it as test tool.
