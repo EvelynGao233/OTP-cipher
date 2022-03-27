@@ -1,42 +1,96 @@
 
 from cipher import *
 
-#generate One_time_pad in size 1000to test
-generated_pad = generatePad(1000)
-#create txt called encipherTest
-with open("encipherTest.txt", "w") as file:
-  file.write("This is a test for encipher and decipher. Gook Luck! If you see this, Congratulations!")
-#create encrypted-message.txt to test encipher encipherTest.txt by using One_time_pad.txt
+generated_pad = generatePadFile("pad.txt",1000)
+
+message = "This is a test for encipher and decipher. Gook Luck! If you see this, Congratulations!"
+
 with open("encrypted-message.txt","w") as file:
-  file.write(encipher("encipherTest.txt","One_time_pad.txt"))
-#use encrypted message in the encrypted-message.txt as decipherTest.txt
-with open("decipherTest.txt", "w") as file:
-  file.write((open("encrypted-message.txt")).read())
-#create decrypted-message.txt to test decipher decipherTest.txt by using One_time_pad.txt
+  file.write(encipher(message,"pad.txt"))
+
+decipher_test = open("encrypted-message.txt").read()
+
 with open("decrypted-message.txt", "w") as file:
-  file.write(decipher("decipherTest.txt","One_time_pad.txt"))
+  file.write(decipher(decipher_test,"pad.txt"))
 
+decrypted = open("decrypted-message.txt").read()
 
-#test genereatPad
-def test_generatePad():
-  #save pad in One_time_pad.txt to pad, if pad equals to generated_pad at the begining, passed test
-  with open ("One_time_pad.txt") as file:
-    pad = file.read()
-  assert generated_pad == pad
-#test decipher
+with open("encrypted-test.txt", "w") as file:
+  file.write(encipher(decrypted,"pad.txt"))
+
 def test_decipher():
-  #if the information in the decipherTest and decrypted-message is same , passed test
-  d = open("encipherTest.txt").read()
-  d2 = open("decrypted-message.txt").read()
-  assert d == d2
-#test encipher
+  assert decrypted == message
+
 def test_encipher():
-  #if the information in the encipherTest and encrypted-message is same , passed test
-  e = open("encrypted-message.txt").read()
-  e2 = open("decipherTest.txt").read()
-  assert e == e2
+  encrypted = open("encrypted-test.txt").read()
+  assert encrypted == decipher_test
+
+def test_shiftLetter_by_3():
+    assert shiftLetter("a", 3) == "d"
+
+def test_shiftLetter_by_negative_3():
+    assert shiftLetter("a", -3) == "x"
+
+def test_shiftLetter_by_3():
+    assert shiftLetter("A", 3) == "D"
+
+def test_shiftLetter_by_negative_3():
+    assert shiftLetter("A", -3) == "X"
+
+def test_randomLetter():
+    assert (randomLetter() == randomLetter() and randomLetter() == randomLetter()) == False
+
+def test_generatePad():
+    assert generatePad(10) != generatePad(10)
+
+def test_generatePadFile():
+    generatePadFile("test.txt",100)
+    with open("test.txt") as file:
+        assert len(file.read()) == 100
+
+def test_addPad_of_A():
+    addPad("ABC","AAA") == "ABC"
+
+def test_addPad_of_Z():
+    addPad("ABC","ZZZ") == "ZAB"
+
+def test_addPad_punctuation():
+    addPad("AB!C4D","EFGHIJK") == "EG!I4K"
+
+def test_subPad_of_A():
+    addPad("ABC","AAA") == "ABC"
+
+def test_subPad_of_Z():
+    addPad("ZAB","ZZZ") == "ABC"
+
+def test_subPad_punctuation():
+    addPad("EG!I4K","EFGHIJK") == "AB!C4D"
 
   
+
+message = "This is a test for encipher and decipher. Gook Luck! If you see this, Congratulations!"
+
+with open("encrypted-message.txt","w") as file:
+  file.write(encipher(message,"test.txt"))
+
+decipher_test = open("encrypted-message.txt").read()
+
+with open("decrypted-message.txt", "w") as file:
+  file.write(decipher(decipher_test,"test.txt"))
+
+decrypted = open("decrypted-message.txt").read()
+
+with open("encrypted-test.txt", "w") as file:
+  file.write(encipher(decrypted,"test.txt"))
+
+def test_decipher():
+  assert decrypted == message
+  
+def test_encipher():
+  encrypted = open("encrypted-test.txt").read()
+  assert encrypted == decipher_test
+
+   
 
 
    
