@@ -1,4 +1,4 @@
-# Spring2022-CSC151
+# OTP-cipher
 
 Instruction:
 
